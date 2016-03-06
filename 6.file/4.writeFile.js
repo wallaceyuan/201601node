@@ -5,5 +5,7 @@ var fs = require('fs');
 
 
 fs.writeFile('./write.txt','node',function(err){
-    console.log();
-})
+    console.log('success');
+});
+
+fs.appendFile('./write.txt','test','utf8');

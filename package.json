@@ -1,5 +1,5 @@
 {
-  "name": "ndyuantest",
+  "name": "2016node",
   "version": "1.0.0",
   "description": "node_learning",
   "main": "index.js",
@@ -19,6 +19,8 @@
     "url": "https://github.com/wallaceyuan/201601node/issues"
   },
   "homepage": "https://github.com/wallaceyuan/201601node#readme",
-  "dependencies": {},
+  "dependencies": {
+    "mime": "^1.3.4"
+  },
   "devDependencies": {}
 }
