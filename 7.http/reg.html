@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>注册</title>
+</head>
+<body>
+用户名<input type="text" name="username"><br/>
+年龄<input type="text" name="age"><br/>
+<input type="button" onclick="reg()" value="注册"><br/>
+<table class="list">
+    <tbody>
+    <tr>
+        <td>用户名</td>
+        <td>年龄</td>
+    </tr>
+    </tbody>
+</table>
+
+输入名字进行查询:<input type="text" name="queryName">
+<input type="button" onclick="query()" value="查询"><br/>
+
+
+
+<table class="query">
+    <tbody>
+    <tr>
+        <td>用户名</td>
+        <td>年龄</td>
+    </tr>
+    </tbody>
+</table>
+<p></p>
+<script type="text/javascript">
+    function query(){
+        var queryName = document.querySelector("input[name='queryName']").value;
+
+        var xhr = new XMLHttpRequest();
+        //指定参数 1
+        xhr.open('POST','/query',true);
+        //注册当状态变化之后的回调函数
+
+        xhr.responseType = 'json';
+
+        xhr.onreadystatechange = function(){
+            //当状态为4的时候，也就是响应接收完毕的时候
+            if(xhr.readyState == 4){
+                var pHtml = document.querySelector("p");
+                if(xhr.status == 200){
+                    console.log(xhr.status);
+                    var user = xhr.response;
+                    var tbody = document.querySelector("table.query tbody");
+                    var tr = document.createElement('tr');
+                    var td1 = document.createElement('td');
+                    td1.innerHTML =user.username;
+                    var td2 = document.createElement('td');
+                    td2.innerHTML =user.age;
+                    tr.appendChild(td1);
+                    tr.appendChild(td2);
+                    tbody.appendChild(tr);
+                    pHtml.innerHTML = '';
+                }else{
+                    console.log(xhr.status);
+                    var pHtml = document.querySelector("p");
+                    pHtml.innerHTML = '查无此人';
+                }
+            }
+        }
+        //指定请求体发送数据
+        xhr.send(queryName);
+    }
+
+
+    function reg(){
+        var username = document.querySelector("input[name='username']").value;
+        var age  =document.querySelector("input[name='age']").value;
+        var user = {
+            username:username,
+            age:age
+        }
+        var xhr = new XMLHttpRequest();
+        //指定参数 1
+        xhr.open('POST','/reg',true);
+        //注册当状态变化之后的回调函数
+
+        xhr.responseType = 'json';
+
+        xhr.onreadystatechange = function(){
+            //当状态为4的时候，也就是响应接收完毕的时候
+            if(xhr.readyState == 4 && xhr.status == 200){
+                var user = xhr.response;
+                console.log(user);
+                user = JSON.parse(user);//转对象
+                var tbody = document.querySelector("table.list tbody");
+                var tr = document.createElement('tr');
+                var td1 = document.createElement('td');
+                td1.innerHTML =user.username;
+                var td2 = document.createElement('td');
+                td2.innerHTML =user.age;
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tbody.appendChild(tr);
+            }
+        }
+        //指定请求体发送数据
+        xhr.send(JSON.stringify(user));
+    }
+
+</script>
+
+</body>
+</html>
