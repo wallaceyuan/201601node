@@ -23,6 +23,9 @@
             xhr.onreadystatechange = function(){
                 if(xhr.readyState == 4 && /2\d{2}/.test(xhr.status)){
                     console.log(xhr.responseText);
+                    var img = document.createElement('img');
+                    img.src = xhr.responseText;
+                    document.body.appendChild(img);
                     //把上传后的图片显示出来
                     /**
                      * 1.在服务器端，把files里的avatar里的path读出来，复制到imgs目录下。

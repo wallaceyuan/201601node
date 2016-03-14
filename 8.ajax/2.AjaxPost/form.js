@@ -7,6 +7,7 @@ var fs = require('fs');
 var formidable = require('formidable');
 var querystring = require('querystring');
 var util  = require('util');
+var mime = require('mime');
 //创建http服务器
 //只有当提交form表单，并且是GET请求的时候，浏览器才会把表单进行序列化拼到URL后面
 http.createServer(function(req,res){
@@ -18,8 +19,8 @@ http.createServer(function(req,res){
     var pathname = urlObj.pathname;
     if(pathname == '/'){
         //读取文件的内容
-        fs.readFile('./form.html','utf8',function(err,data){
-                res.end(data);
+        fs.readFile('./html/form.html','utf8',function(err,data){
+            res.end(data);
         })
     }else if(pathname == '/reg'){
         var result='';
@@ -51,10 +52,31 @@ http.createServer(function(req,res){
         //把文件类型的元素放在files里
         formParser.parse(req, function(err, fields, files) {
             res.writeHead(200, {'content-type': 'text/plain'});
+            //res.write('received up:\n\n');
+            //res.write(util.inspect({fields:fields,files:files}));
+            var imgPath = files.avatar.path;
+            var rand = Math.floor(Math.random()*100);
+            var fileName = 'imgs/'+rand+files.avatar.name;
+            var rs = fs.createReadStream(imgPath);
+            var ws = fs.createWriteStream(fileName);
+            rs.pipe(ws);
+            res.writeHead(200,{'Content-Type':'text/plain'});
+            res.end(fileName);
             //inspect是把对象转成字符串
-            res.end("/imgs/3.png");
+            //res.end("/imgs/3.png");
         });
+    }else{
+        fs.exists('.'+pathname,function(exists){
+            if(exists){
+                //从文件名中获取文件的Content-Type
+                res.setHeader('Content-Type',mime.lookup(pathname));
+                fs.readFile('.'+pathname,function(err,data){
+                    res.end(data);
+                })
+            }else{
+                res.statusCode = 404;
+                res.end(JSON.stringify({name:'zfpx'}));
+            }
+        })
     }
-
-
 }).listen(8080);

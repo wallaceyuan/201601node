@@ -32,7 +32,6 @@ http.createServer(function(req,res){
             if(contentType =='application/x-www-form-urlencoded'){
                 //把查询字符串转成对象
                 var obj = querystring.parse(result);
-                console.log(obj);
             }else if(contentType == 'application/json'){
                 var obj  = JSON.parse(result);
                 console.log(obj);
