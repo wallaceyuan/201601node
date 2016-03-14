@@ -33,9 +33,8 @@ http.createServer(function(req,res){
             user = require('querystring').parse(result,'|','@');
         }
 
-
         users.push(user);
         res.end(JSON.stringify(users));
     });
 
-}).listen(8080);
+}).listen(8081);

@@ -2,12 +2,12 @@ var http = require('http');
 //指定请求的参数
 var options = {
     host:'localhost',
-    port:8080,
+    port:8081,
     path:'/post',
     method:'POST',
-    //headers:{'Content-Type':'application/json'}
+    headers:{'Content-Type':'application/json'}
     //headers:{'Content-Type':'application/x-www-form-urlencoded'}
-    headers:{'Content-Type':'application/zfpx'}
+    //headers:{'Content-Type':'application/zfpx'}
 }
 //向服务器发送请求
 var request = http.request(options,function(res){
@@ -23,8 +23,8 @@ var request = http.request(options,function(res){
     });
 })
 //request也是一个流，是一个可写流
-/*request.write('{"name":"zfpx"');
-request.write(',"age":6}');*/
+request.write('{"name":"zfpx"');
+request.write(',"age":6}');
 //request.write('name=zfpx&age=6');
-request.write('name@zfpx|age@6');
+//request.write('name@zfpx|age@6');
 request.end();//当调用end方法的时候请求才会真正发出
