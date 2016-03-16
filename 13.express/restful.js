@@ -15,7 +15,6 @@ var user = {
     }
 }
 
-
 app.get('/listUsers',function(req,res){
     fs.readFile(__dirname +'/'+'user.json',function(err,data){
         res.end(data);
@@ -26,6 +25,10 @@ app.get('/addUsers',function(req,res){
     fs.readFile(__dirname +'/'+'user.json',function(err,data){
         data = JSON.parse(data);
         data['user4'] = user['user4'];
+        fs.writeFile(__dirname +'/'+'user.json',JSON.stringify(data),function(err,data){
+            if (err) throw err;
+            console.log('It\'s saved!'); //文件被保存
+        });
         res.end( JSON.stringify(data));
     });
 });
