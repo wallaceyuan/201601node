@@ -12,6 +12,8 @@ app.set('views',path.resolve('views'));
 app.use(express.static(__dirname));
 app.use(bodyParser.urlencoded({extended:true}));//此中间件会把请求体提取出来放到req.body上
 
+
+
 var user4 = {
     "name" : "mohit",
     "password" : "password4",
@@ -49,8 +51,8 @@ app.get('/listUsers',function(req,res){
 app.get('/addUsers',function(req,res){
     fs.readFile(__dirname +'/'+'user.json',function(err,data){
         data = JSON.parse(data);
-        var l = data.length;
-        user4.id = l+1;
+        var newId = Math.ceil( Math.random()*100)+ Math.floor(Date.now() / 1000);
+        user4.id = newId;
         data.push(user4);
         fs.writeFile(__dirname +'/'+'user.json',JSON.stringify(data),function(err,data){
             if (err) throw err;
@@ -65,9 +67,8 @@ app.post('/addUsers',function(req,res){
     var newData = req.body;
     fs.readFile(__dirname +'/'+'user.json',function(err,data){
         data = JSON.parse(data);
-        var l = data.length;
-        newData.id = l+1;
-        console.log(newData);
+        var newId = Math.ceil( Math.random()*100)+ Math.floor(Date.now() / 1000);
+        newData.id = newId;
         data.push(newData);
         console.log(data);
         fs.writeFile(__dirname +'/'+'user.json',JSON.stringify(data),{encoding: 'utf8',flag: 'w'},function(err){
@@ -82,12 +83,12 @@ app.post('/addUsers',function(req,res){
 });
 
 /*查询user*/
-app.get('/user/:id',function(req,res){
+app.get('/user/:name',function(req,res){
     fs.readFile(__dirname +'/'+'user.json',function(err,data){
         var user = JSON.parse(data);var flag = false;
         console.log(req.params.id);
         for (var i = 0; i < user.length; i++) {
-            if (user[i].name == req.params.id) {
+            if (user[i].name == req.params.name) {
                 flag = true;
             }
         }
