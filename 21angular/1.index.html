@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html ng-app="zfpxMod">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <div ng-controller="ZfpxCtr">
+        {{name.sex}}
+        {{1+1}}
+        {{username}}
+    </div>
+    <script src="angular.js"></script>
+    <script type="text/javascript">
+        angular.module('zfpxMod',[]);
+        angular.module("zfpxMod").controller("ZfpxCtr",function($timeout,$scope){
+            $scope.name = {
+                sex:'女',
+                age:'12'
+            }
+            $scope.people = function(){
+                return 'hello angularJs'
+            }
+            //控制器的作用就是为了给$scope加属性
+            ///$scope 的名字是定死的，不能修改
+            $scope.username = 'zfpx';
+            //settimeout()
+            //$timeout 比原生的settimeout 多了一个刷新视图的操作
+            $timeout(function(){
+                $scope.username = new Date().toLocaleString();
+            },1000);
+        });
+    </script>
+</body>
+</html>
