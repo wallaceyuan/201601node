@@ -19,14 +19,14 @@
                 <div class="panel-body">
                     <ul class="list-group" id="messageUl" ng-repeat="mes in messages">
                         <li class="list-group-item">
-                            <span class="user">{{mes.user}}</span>:{{mes.content}}
+                            <span class="user" ng-click="replay(mes.user)">{{mes.user}}</span>:{{mes.content}}
                         </li>
                     </ul>
                 </div>
                 <div class="panel-footer">
                     <div class="row">
                         <div class="col-xs-10">
-                            <input type="text" class="form-control" id="txtMsg" ng-model="message">
+                            <input type="text" class="form-control" id="txtMsg" ng-model="message" ng-keypress="enter($event)">
                         </div>
                         <div class="col-xs-2">
                             <button class="btn btn-default" type="button" id="sendBtn" ng-click="createMessage()">发言</button>
@@ -70,16 +70,22 @@
             }
         };
     });
-
     angular.module('chatModule').controller('chatCtrl',function($scope,socket){
         $scope.messages = [];
         $scope.message = '';
         $scope.createMessage = function(){
-            console.log($scope.message);
             if($scope.message){
                 socket.send($scope.message);
-                //socket.emit('send',$scope.message);
-                //$scope.message = '';
+                $scope.message = '';
+            }
+        }
+        $scope.replay = function(user){
+            $scope.message = '@'+user;
+        }
+        $scope.enter = function(keyEvent){
+            var char = keyEvent.charCode || keyEvent.keyCode || keyEvent.which;
+            if(char == 13){
+                $scope.createMessage();
             }
         }
         socket.on('connect', function (data) {
@@ -88,44 +94,11 @@
                 content: '连接成功'
             });
         });
+        //监听服务器发过来的消息
         socket.on('message',function(msg){
             console.log(msg);
             $scope.messages.push(msg);
         });
     });
-
-/*
-    window.onload = function(){
-        function addMsg(msg){
-            $('#messageUl').append('<li class="list-group-item"><span class="user">'+msg.user+'</span>:'+msg.content+'</li>');
-        }
-        var socket = io.connect('/');
-        socket.on('connect',function(){
-            addMsg({user:'系统',content:'连接成功'});
-        })
-        //监听服务器发过来的消息
-        socket.on('message',function(msg){
-            addMsg(msg);
-        })
-        $('#txtMsg').keypress(function(event){
-            var char = event.charCode || event.keyCode || event.which;
-            if(char == 13){
-                $('#sendBtn').click();
-            }
-        });
-        $('#sendBtn').click(function(){
-            var message = $('#txtMsg').val();
-            if(message&& message.length>0){
-                var message = $('#txtMsg').val();
-                socket.send(message);
-                $('#txtMsg').val('');
-            }
-        });
-
-        $('body').delegate('ul li span','click',function(){
-            $('#txtMsg').val('@'+$(this).text()+' ');
-        })
-    }
-*/
 </script>
 </html>
