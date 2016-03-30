@@ -41,7 +41,6 @@
 <script src="js/jquery.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="js/angular.js"></script>
-
 <script>
     angular.module('chatModule',[]);
     angular.module('chatModule').factory('socket',function($rootScope) {
@@ -65,6 +64,9 @@
                         }
                     });
                 })
+            },
+            send:function(data){
+                socket.send(data);
             }
         };
     });
@@ -75,8 +77,9 @@
         $scope.createMessage = function(){
             console.log($scope.message);
             if($scope.message){
-                socket.emit('send',$scope.message);
-                $scope.message = '';
+                socket.send($scope.message);
+                //socket.emit('send',$scope.message);
+                //$scope.message = '';
             }
         }
         socket.on('connect', function (data) {
