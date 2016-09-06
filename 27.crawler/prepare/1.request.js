@@ -6,6 +6,8 @@ var iconv = require('iconv-lite');
 var cheerio = require('cheerio');
 
 request({url:'http://top.baidu.com/category?c=10&fr=topindex',encoding:null},function(err,response,body){
+    if(err)
+        console.error(err);
     var result = iconv.decode(body,'gbk');
     var $ = cheerio.load(result);
     $('.hd .title a').each(function(){

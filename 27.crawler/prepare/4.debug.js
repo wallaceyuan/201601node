@@ -3,3 +3,8 @@
  */
 var debug = require('debug')('crawler:main');
 debug('main');
+
+
+
+var debug = require('debug')('crawler:start');
+debug('start');
