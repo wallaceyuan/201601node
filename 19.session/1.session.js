@@ -5,6 +5,8 @@ var express = require('express');
 var session = require('express-session');
 var app = express();
 var sessions = {};
+
+//session 储存在服务器端
 app.use(session({
     secret: 'zfpx', //secret的值建议使用随机字符串
     cookie: {maxAge: 60 * 1000 * 30}, // 过期时间（毫秒）
@@ -23,4 +25,5 @@ app.get('/',function(req,res){
         res.send('欢迎登陆！');
     }
 });
+
 app.listen(8888);

@@ -13,7 +13,6 @@ app.use(express.static(__dirname));
 app.use(bodyParser.urlencoded({extended:true}));//此中间件会把请求体提取出来放到req.body上
 
 
-
 var user4 = {
     "name" : "mohit",
     "password" : "password4",
@@ -121,5 +120,5 @@ app.get('/delete/:id',function(req,res){
 
 
 
-app.listen(8080);
+app.listen(3000);
 

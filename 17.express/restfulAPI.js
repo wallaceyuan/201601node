@@ -13,7 +13,7 @@ var users = [{id: 1, name: 'zfpx1',mny:100}, {id: 2, name: 'zfpx2',mny:100}];
  */
 //1.获取所有的用户
 app.get('/users', function (req, res) {
-    //Accept:text/html,application/xml;q=0.9,image/webp,*/*;q=0.8
+    //Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
     var accept = req.headers['accept'];
     var acceptType = accept.split(',').map(function (item) {
         var values = item.split(';');
@@ -109,11 +109,11 @@ app.patch('/users/:id',function(req,res){
 //curl -X DELETE   http://localhost:8080/users/2
 app.delete('/users/:id',function(req,res){
     /*for(var i=0;i<users.length;i++){
-     if(users[i].id == req.params.id){
-     users.splice(i,1);
-     res.send({});
-     return;
-     }
+         if(users[i].id == req.params.id){
+             users.splice(i,1);
+             res.send({});
+             return;
+         }
      }*/
     console.log(req.params.id);
     users  = users.filter(function(user){
@@ -128,4 +128,4 @@ app.post('/transaction/:fromId/:toId',function(){
 
 });
 
-app.listen(8080);
+app.listen(3000);

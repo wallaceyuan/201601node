@@ -1,28 +1,26 @@
-/**
- * Created by yuan on 2016/3/15.
- */
+
 var express = require('express');
 var path = require('path');
+var bodyParser = require('body-parser');
 
 var app = express();
-
 
 app.set('view engine','ejs');
 app.set('views',path.resolve('views'));
 
-app.get('/',function(req,res){
-    res.render('index',{title:'主页',
-        book:{
-            name:'node.js'
-        }
-    });
-});
+app.use(bodyParser.urlencoded({extended:true}));//此中间件会把请求体提取出来放到req.body上
 
-app.get('/reg',function(req,res){
-    res.render('index',{title:'主页',book:{
-        name:'node.js'
-    }});
-});
+app.use(function(request,response,next){
+    console.log("In comes a "+request.method+ " to " + request.url)
+    next();
+})
+
+app.use(function(request,response,next){
+    //response.writeHead(200, { "Content-Type": "text/plain" });
+    next();
+})
+
+var routes = require('./routes')(app);
 
 app.listen(3000);
 

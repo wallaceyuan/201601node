@@ -11,6 +11,9 @@
 </head>
 <body>
 <div class="node">
+    <% books.forEach(function(book){%>
+    <li><%=book %></li>
+    <% }) %>
     <form class="reg">
         <h2 class="form-title">Add user</h2>
         <div class="form-group">

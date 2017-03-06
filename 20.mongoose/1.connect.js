@@ -2,7 +2,7 @@
  * Created by Yuan on 2016/3/20.
  */
 var mongoose = require("mongoose");
-var db = mongoose.connect("mongodb://123.57.143.189:27017/yuan");
+var db = mongoose.connect("mongodb://127.0.0.1:27017/mm");
 db.connection.on("error", function (error) {
     console.log("数据库连接失败：" + error);
 });
